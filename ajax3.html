@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Ajax-3 - External API</title>
+      <style>
+            .user{
+                  display: flex;
+                  background-color: #c5bdb4; 
+                  margin: 10px;
+            }
+            .user li {
+                  list-style-type: none;
+            }
+      </style>
+</head>
+<body>
+      <button id="button">Load Github users</button>
+      <br>
+      <h1>Github Users</h1>
+      <div id="user"></div>
+
+
+
+
+
+      <script>
+            document.getElementById('button').addEventListener('click',loadUser);
+
+            function loadUser(){
+                  console.log(1);
+                  const xhr = new XMLHttpRequest();
+   
+                  xhr.open('GET','https://api.github.com/users',true);
+
+                  xhr.onload = function(){
+                        if(this.status==200){
+                              
+                              let user =  JSON.parse(this.responseText);
+                              
+                              let output = "";
+                              for(let i in user){
+                                    output+=`<div class="user">
+                                                <img src="${user[i].avatar_url}" width="100px" height="100px">
+                                                <ul>
+                                                      <li>ID: ${user[i].id}</li>
+                                                      <li>Login: ${user[i].login}</li>
+                                                </ul> 
+                                          </div>`
+                              }
+                              document.getElementById('user').innerHTML=output;
+                        }
+                  }
+                  xhr.send();
+      }
+
+
+      </script>
+</body>
+</html>
